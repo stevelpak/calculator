@@ -14,12 +14,22 @@ class _CalcAppState extends State<CalcApp> {
   Alignment nightAlign = Alignment.centerRight;
   Alignment switchAlign = Alignment.centerLeft;
 
+  Color bgClr = nightBgClr;
+  Color numClr = numbersClr;
+  Color numTxtClr = white;
+
   changeTheme() {
     setState(() {
       if (switchAlign == dayAlign) {
         switchAlign = nightAlign;
+        bgClr = lightBgClr;
+        numClr = white;
+        numTxtClr = black;
       } else {
         switchAlign = dayAlign;
+        bgClr = nightBgClr;
+        numClr = numbersClr;
+        numTxtClr = white;
       }
     });
   }
@@ -28,7 +38,7 @@ class _CalcAppState extends State<CalcApp> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: nightBgClr,
+        backgroundColor: bgClr,
         body: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
           child: Column(
@@ -115,10 +125,10 @@ class _CalcAppState extends State<CalcApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    button(nightactionsClmnClr, "C"),
-                    button(nightactionsClmnClr, "+/-"),
-                    button(nightactionsClmnClr, "%"),
-                    button(actionsClmnnClr, "÷"),
+                    button(nightactionsClmnClr, "C", numTxtClr),
+                    button(nightactionsClmnClr, "+/-", numTxtClr),
+                    button(nightactionsClmnClr, "%", numTxtClr),
+                    button(actionsClmnnClr, "÷", white),
                   ],
                 ),
               ),
@@ -127,10 +137,10 @@ class _CalcAppState extends State<CalcApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    button(numbersClr, "7"),
-                    button(numbersClr, "8"),
-                    button(numbersClr, "9"),
-                    button(actionsClmnnClr, "*"),
+                    button(numClr, "7", numTxtClr),
+                    button(numClr, "8", numTxtClr),
+                    button(numClr, "9", numTxtClr),
+                    button(actionsClmnnClr, "*", white),
                   ],
                 ),
               ),
@@ -139,10 +149,10 @@ class _CalcAppState extends State<CalcApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    button(numbersClr, "4"),
-                    button(numbersClr, "5"),
-                    button(numbersClr, "6"),
-                    button(actionsClmnnClr, "-"),
+                    button(numClr, "4", numTxtClr),
+                    button(numClr, "5", numTxtClr),
+                    button(numClr, "6", numTxtClr),
+                    button(actionsClmnnClr, "-", white),
                   ],
                 ),
               ),
@@ -151,10 +161,10 @@ class _CalcAppState extends State<CalcApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    button(numbersClr, "1"),
-                    button(numbersClr, "2"),
-                    button(numbersClr, "3"),
-                    button(actionsClmnnClr, "+"),
+                    button(numClr, "1", numTxtClr),
+                    button(numClr, "2", numTxtClr),
+                    button(numClr, "3", numTxtClr),
+                    button(actionsClmnnClr, "+", white),
                   ],
                 ),
               ),
@@ -163,10 +173,10 @@ class _CalcAppState extends State<CalcApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    button(numbersClr, "."),
-                    button(numbersClr, "0"),
-                    button(numbersClr, "DEL"),
-                    button(actionsClmnnClr, "="),
+                    button(numbersClr, ".", numTxtClr),
+                    button(numbersClr, "0", numTxtClr),
+                    button(numbersClr, "DEL", numTxtClr),
+                    button(actionsClmnnClr, "=", white),
                   ],
                 ),
               ),
@@ -177,7 +187,7 @@ class _CalcAppState extends State<CalcApp> {
     );
   }
 
-  InkWell button(Color bgclr, String text) {
+  InkWell button(Color bgclr, String text, Color numTxtClr) {
     return InkWell(
       onTap: () {},
       child: Container(
@@ -193,7 +203,7 @@ class _CalcAppState extends State<CalcApp> {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: white,
+              color: numTxtClr,
             ),
           ),
         ),
