@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:calculator/widgets/scale.dart';
 
-import 'package:calculator/utils/constants.dart';
+import '../utils/constants.dart';
 
 class CalcApp extends StatefulWidget {
   const CalcApp({Key? key}) : super(key: key);
@@ -48,17 +50,23 @@ class _CalcAppState extends State<CalcApp> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: bgClr,
-        body: Padding(
+    Size size = MediaQuery.of(context).size;
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: bgClr,
+      statusBarBrightness:
+          switchAlign == dayAlign ? Brightness.dark : Brightness.light,
+    ));
+    return Scaffold(
+      backgroundColor: bgClr,
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-                width: 120,
-                height: 50,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                width: size.width * 0.25,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                   color: switchClr,
@@ -66,23 +74,21 @@ class _CalcAppState extends State<CalcApp> {
                 child: Stack(
                   children: [
                     AnimatedContainer(
-                      padding: const EdgeInsets.only(left: 10),
                       alignment: dayAlign,
                       duration: const Duration(seconds: 1),
                       child: Icon(
                         Icons.sunny,
                         color: actionsClmnnClr,
-                        size: 30,
+                        size: size.height * 0.04,
                       ),
                     ),
                     AnimatedContainer(
-                      padding: const EdgeInsets.only(right: 10),
                       alignment: nightAlign,
                       duration: const Duration(seconds: 1),
                       child: Icon(
                         Icons.mode_night_outlined,
                         color: actionsClmnnClr,
-                        size: 30,
+                        size: size.height * 0.04,
                       ),
                     ),
                     AnimatedContainer(
@@ -93,8 +99,8 @@ class _CalcAppState extends State<CalcApp> {
                           changeTheme();
                         },
                         child: Container(
-                          width: 50,
-                          height: 50,
+                          width: size.height * 0.04,
+                          height: size.height * 0.04,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: switchColor,
@@ -106,14 +112,14 @@ class _CalcAppState extends State<CalcApp> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 60),
+                padding: EdgeInsets.only(top: size.height * 0.04),
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
                     "6,291/5",
                     style: TextStyle(
                       color: lastAction,
-                      fontSize: 30,
+                      fontSize: size.height * 0.04,
                     ),
                   ),
                 ),
@@ -127,70 +133,42 @@ class _CalcAppState extends State<CalcApp> {
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       color: resultClr,
-                      fontSize: 70,
+                      fontSize: size.height * 0.08,
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    button(actRowClr, "C", numTxtClr),
-                    button(actRowClr, "+/-", numTxtClr),
-                    button(actRowClr, "%", numTxtClr),
-                    button(actionsClmnnClr, "÷", white),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    button(numClr, "7", numTxtClr),
-                    button(numClr, "8", numTxtClr),
-                    button(numClr, "9", numTxtClr),
-                    button(actionsClmnnClr, "x", white),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    button(numClr, "4", numTxtClr),
-                    button(numClr, "5", numTxtClr),
-                    button(numClr, "6", numTxtClr),
-                    button(actionsClmnnClr, "-", white),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    button(numClr, "1", numTxtClr),
-                    button(numClr, "2", numTxtClr),
-                    button(numClr, "3", numTxtClr),
-                    button(actionsClmnnClr, "+", white),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    button(numClr, ".", numTxtClr),
-                    button(numClr, "0", numTxtClr),
-                    button(numClr, "DEL", numTxtClr),
-                    button(actionsClmnnClr, "=", white),
-                  ],
-                ),
+              GridView.count(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: size.height * 0.0016,
+                crossAxisCount: 4,
+                primary: false,
+                children: [
+                  button(actRowClr, "C", numTxtClr),
+                  button(actRowClr, "+/-", numTxtClr),
+                  button(actRowClr, "%", numTxtClr),
+                  button(actionsClmnnClr, "÷", white),
+                  button(numClr, "7", numTxtClr),
+                  button(numClr, "8", numTxtClr),
+                  button(numClr, "9", numTxtClr),
+                  button(actionsClmnnClr, "x", white),
+                  button(numClr, "4", numTxtClr),
+                  button(numClr, "5", numTxtClr),
+                  button(numClr, "6", numTxtClr),
+                  button(actionsClmnnClr, "-", white),
+                  button(numClr, "1", numTxtClr),
+                  button(numClr, "2", numTxtClr),
+                  button(numClr, "3", numTxtClr),
+                  button(actionsClmnnClr, "+", white),
+                  button(numClr, ".", numTxtClr),
+                  button(numClr, "0", numTxtClr),
+                  button(numClr, "DEL", numTxtClr),
+                  button(actionsClmnnClr, "=", white),
+                ],
               ),
             ],
           ),
@@ -199,24 +177,22 @@ class _CalcAppState extends State<CalcApp> {
     );
   }
 
-  InkWell button(Color bgclr, String text, Color numTxtClr) {
-    return InkWell(
+  Widget button(Color bgclr, String text, Color numTxtClr) {
+    return scaleWidget(
       onTap: () {},
+      scale: 0.7,
       child: Container(
-        width: 75,
-        height: 75,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
           color: bgclr,
+          borderRadius: BorderRadius.circular(15),
         ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: numTxtClr,
-            ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: numTxtClr,
           ),
         ),
       ),
