@@ -20,12 +20,12 @@ class _CalcAppState extends State<CalcApp> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
                 width: 120,
                 height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  color: switchBtnClr,
+                  color: switchBtnBgClr,
                 ),
                 child: Stack(
                   children: [
@@ -54,9 +54,9 @@ class _CalcAppState extends State<CalcApp> {
                       child: Container(
                         width: 50,
                         height: 50,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.red,
+                          color: switchBtnClr,
                         ),
                       ),
                     ),
