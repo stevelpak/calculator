@@ -17,6 +17,10 @@ class _CalcAppState extends State<CalcApp> {
   Color bgClr = nightBgClr;
   Color numClr = numbersClr;
   Color numTxtClr = white;
+  Color resultClr = white;
+  Color actRowClr = nightactionsClmnClr;
+  Color switchClr = switchBtnBgClr;
+  Color switchColor = switchBtnClr;
 
   changeTheme() {
     setState(() {
@@ -25,11 +29,19 @@ class _CalcAppState extends State<CalcApp> {
         bgClr = lightBgClr;
         numClr = white;
         numTxtClr = black;
+        resultClr = black;
+        actRowClr = actionsLightRowClr;
+        switchClr = white;
+        switchColor = actionsLightRowClr;
       } else {
         switchAlign = dayAlign;
         bgClr = nightBgClr;
         numClr = numbersClr;
         numTxtClr = white;
+        resultClr = white;
+        actRowClr = nightactionsClmnClr;
+        switchClr = switchBtnBgClr;
+        switchColor = switchBtnClr;
       }
     });
   }
@@ -49,7 +61,7 @@ class _CalcAppState extends State<CalcApp> {
                 height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  color: switchBtnBgClr,
+                  color: switchClr,
                 ),
                 child: Stack(
                   children: [
@@ -75,7 +87,7 @@ class _CalcAppState extends State<CalcApp> {
                     ),
                     AnimatedContainer(
                       alignment: switchAlign,
-                      duration: const Duration(seconds: 1),
+                      duration: const Duration(milliseconds: 500),
                       child: InkWell(
                         onTap: () {
                           changeTheme();
@@ -85,7 +97,7 @@ class _CalcAppState extends State<CalcApp> {
                           height: 50,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: switchBtnClr,
+                            color: switchColor,
                           ),
                         ),
                       ),
@@ -114,7 +126,7 @@ class _CalcAppState extends State<CalcApp> {
                     "1,258.2",
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                      color: white,
+                      color: resultClr,
                       fontSize: 70,
                     ),
                   ),
@@ -125,9 +137,9 @@ class _CalcAppState extends State<CalcApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    button(nightactionsClmnClr, "C", numTxtClr),
-                    button(nightactionsClmnClr, "+/-", numTxtClr),
-                    button(nightactionsClmnClr, "%", numTxtClr),
+                    button(actRowClr, "C", numTxtClr),
+                    button(actRowClr, "+/-", numTxtClr),
+                    button(actRowClr, "%", numTxtClr),
                     button(actionsClmnnClr, "÷", white),
                   ],
                 ),
@@ -173,9 +185,9 @@ class _CalcAppState extends State<CalcApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    button(numbersClr, ".", numTxtClr),
-                    button(numbersClr, "0", numTxtClr),
-                    button(numbersClr, "DEL", numTxtClr),
+                    button(numClr, ".", numTxtClr),
+                    button(numClr, "0", numTxtClr),
+                    button(numClr, "DEL", numTxtClr),
                     button(actionsClmnnClr, "=", white),
                   ],
                 ),
