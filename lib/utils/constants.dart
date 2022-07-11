@@ -8,5 +8,6 @@ Color actionsRowColor = const Color(0xFFD2D3DA);
 Color nightactionsClmnClr = const Color(0xFF4E505F);
 Color numbersClr = const Color(0xFF2E2F38);
 Color lastAction = const Color(0xFF747477);
+Color switchBtnClr = const Color(0xFF2E2F38);
 Color black = Colors.black;
 Color white = Colors.white;

@@ -15,23 +15,27 @@ class _CalcAppState extends State<CalcApp> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: nightBgClr,
-        appBar: AppBar(
-          title: const Text("Calculator"),
-          centerTitle: true,
-          backgroundColor: nightBgClr,
-          elevation: 0,
-        ),
         body: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 90),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "6,291/5",
-                  style: TextStyle(
-                    color: lastAction,
-                    fontSize: 30,
+              Container(
+                width: 100,
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: switchBtnClr),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "6,291/5",
+                    style: TextStyle(
+                      color: lastAction,
+                      fontSize: 30,
+                    ),
                   ),
                 ),
               ),
@@ -116,16 +120,16 @@ class _CalcAppState extends State<CalcApp> {
     );
   }
 
-  Container button(Color bgclr, String text) {
-    return Container(
-      width: 75,
-      height: 75,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: bgclr,
-      ),
-      child: InkWell(
-        onTap: () {},
+  InkWell button(Color bgclr, String text) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        width: 75,
+        height: 75,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: bgclr,
+        ),
         child: Center(
           child: Text(
             text,
