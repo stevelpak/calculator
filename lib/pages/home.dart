@@ -152,7 +152,7 @@ class _CalcAppState extends State<CalcApp> {
                     button(numClr, "7", numTxtClr),
                     button(numClr, "8", numTxtClr),
                     button(numClr, "9", numTxtClr),
-                    button(actionsClmnnClr, "*", white),
+                    button(actionsClmnnClr, "x", white),
                   ],
                 ),
               ),
