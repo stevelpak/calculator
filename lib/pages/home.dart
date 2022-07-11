@@ -20,11 +20,33 @@ class _CalcAppState extends State<CalcApp> {
           child: Column(
             children: [
               Container(
+                padding: const EdgeInsets.all(5),
                 width: 100,
                 height: 50,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: switchBtnClr),
+                  borderRadius: BorderRadius.circular(25),
+                  color: switchBtnClr,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      children: [
+                        AnimatedContainer(
+                          duration: const Duration(seconds: 3),
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red,
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 60),
