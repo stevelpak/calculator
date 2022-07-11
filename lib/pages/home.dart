@@ -20,50 +20,49 @@ class _CalcAppState extends State<CalcApp> {
           child: Column(
             children: [
               Container(
-                  padding: const EdgeInsets.all(3),
-                  width: 100,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: switchBtnClr,
-                  ),
-                  child: Stack(
-                    children: [
-                      AnimatedContainer(
-                        duration: const Duration(seconds: 3),
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red,
-                          ),
+                padding: const EdgeInsets.all(5),
+                width: 120,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: switchBtnClr,
+                ),
+                child: Stack(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(seconds: 3),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red,
                         ),
                       ),
-                      AnimatedContainer(
-                        duration: const Duration(seconds: 3),
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red,
-                          ),
-                        ),
+                    ),
+                    AnimatedContainer(
+                      padding: const EdgeInsets.only(left: 10),
+                      alignment: Alignment.centerLeft,
+                      duration: const Duration(seconds: 3),
+                      child: Icon(
+                        Icons.sunny,
+                        color: actionsClmnnClr,
+                        size: 30,
                       ),
-                      AnimatedContainer(
-                        duration: const Duration(seconds: 3),
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red,
-                          ),
-                        ),
-                      )
-                    ],
-                  )),
+                    ),
+                    AnimatedContainer(
+                      padding: const EdgeInsets.only(right: 10),
+                      alignment: Alignment.centerRight,
+                      duration: const Duration(seconds: 3),
+                      child: Icon(
+                        Icons.mode_night_outlined,
+                        color: actionsClmnnClr,
+                        size: 30,
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 60),
                 child: Align(
