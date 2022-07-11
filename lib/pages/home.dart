@@ -30,17 +30,6 @@ class _CalcAppState extends State<CalcApp> {
                 child: Stack(
                   children: [
                     AnimatedContainer(
-                      duration: const Duration(seconds: 3),
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                    AnimatedContainer(
                       padding: const EdgeInsets.only(left: 10),
                       alignment: Alignment.centerLeft,
                       duration: const Duration(seconds: 3),
@@ -59,7 +48,18 @@ class _CalcAppState extends State<CalcApp> {
                         color: actionsClmnnClr,
                         size: 30,
                       ),
-                    )
+                    ),
+                    AnimatedContainer(
+                      duration: const Duration(seconds: 3),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
