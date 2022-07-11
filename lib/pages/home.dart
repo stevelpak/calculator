@@ -10,6 +10,20 @@ class CalcApp extends StatefulWidget {
 }
 
 class _CalcAppState extends State<CalcApp> {
+  Alignment dayAlign = Alignment.centerLeft;
+  Alignment nightAlign = Alignment.centerRight;
+  Alignment switchAlign = Alignment.centerLeft;
+
+  changeTheme() {
+    setState(() {
+      if (switchAlign == dayAlign) {
+        switchAlign = nightAlign;
+      } else {
+        switchAlign = dayAlign;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,8 +45,8 @@ class _CalcAppState extends State<CalcApp> {
                   children: [
                     AnimatedContainer(
                       padding: const EdgeInsets.only(left: 10),
-                      alignment: Alignment.centerLeft,
-                      duration: const Duration(seconds: 3),
+                      alignment: dayAlign,
+                      duration: const Duration(seconds: 1),
                       child: Icon(
                         Icons.sunny,
                         color: actionsClmnnClr,
@@ -41,8 +55,8 @@ class _CalcAppState extends State<CalcApp> {
                     ),
                     AnimatedContainer(
                       padding: const EdgeInsets.only(right: 10),
-                      alignment: Alignment.centerRight,
-                      duration: const Duration(seconds: 3),
+                      alignment: nightAlign,
+                      duration: const Duration(seconds: 1),
                       child: Icon(
                         Icons.mode_night_outlined,
                         color: actionsClmnnClr,
@@ -50,13 +64,19 @@ class _CalcAppState extends State<CalcApp> {
                       ),
                     ),
                     AnimatedContainer(
-                      duration: const Duration(seconds: 3),
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: switchBtnClr,
+                      alignment: switchAlign,
+                      duration: const Duration(seconds: 1),
+                      child: InkWell(
+                        onTap: () {
+                          changeTheme();
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: switchBtnClr,
+                          ),
                         ),
                       ),
                     ),
