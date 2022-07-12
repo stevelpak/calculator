@@ -24,6 +24,15 @@ class _CalcAppState extends State<CalcApp> {
   Color switchClr = switchBtnBgClr;
   Color switchColor = switchBtnClr;
 
+  var lasttxt = TextEditingController();
+  var resulttxt = TextEditingController();
+
+  double? firstNum, secondNum, result;
+  String? lastOperand;
+
+  List nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+  List operands = ['÷', 'x', '-', '+'];
+
   changeTheme() {
     setState(() {
       if (switchAlign == dayAlign) {
@@ -46,6 +55,57 @@ class _CalcAppState extends State<CalcApp> {
         switchColor = switchBtnClr;
       }
     });
+  }
+
+  status(String text) {
+    if (text == "C") {
+      resulttxt.text = "";
+      lasttxt.text = "";
+    }
+
+    if (text == "DEL") {
+      resulttxt.text = resulttxt.text.substring(0, resulttxt.text.length - 1);
+    }
+
+    if (text == "+/-") {
+      resulttxt.text = (double.parse(resulttxt.text) * (-1)).toString();
+    }
+
+    if (text == "%") {
+      resulttxt.text = (double.parse(resulttxt.text) / (100)).toString();
+    }
+
+    if (text == ".") {
+      resulttxt.text += ".";
+    }
+
+    if (nums.contains(text)) {
+      resulttxt.text += text;
+    }
+
+    if (operands.contains(text)) {
+      lastOperand = text;
+      firstNum = double.parse(resulttxt.text);
+      lasttxt.text = resulttxt.text + text;
+      resulttxt.text = "";
+    }
+
+    if (text == "=") {
+      secondNum = double.parse(resulttxt.text);
+      lasttxt.text = lasttxt.text + resulttxt.text;
+
+      if (lastOperand == "+") {
+        resulttxt.text = (firstNum! + secondNum!).toString();
+      } else if (lastOperand == "-") {
+        resulttxt.text = (firstNum! - secondNum!).toString();
+      } else if (lastOperand == "x") {
+        resulttxt.text = (firstNum! * secondNum!).toString();
+      } else if (lastOperand == "÷") {
+        resulttxt.text = (firstNum! / secondNum!).toString();
+      }
+    }
+
+    setState(() {});
   }
 
   @override
@@ -112,29 +172,34 @@ class _CalcAppState extends State<CalcApp> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: size.height * 0.04),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "6,291/5",
-                    style: TextStyle(
-                      color: lastAction,
-                      fontSize: size.height * 0.04,
-                    ),
+                padding: EdgeInsets.only(top: size.height * 0.06),
+                child: TextFormField(
+                  controller: lasttxt,
+                  textAlign: TextAlign.right,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    border: InputBorder.none,
+                  ),
+                  style: TextStyle(
+                    color: lastAction,
+                    fontSize: size.height * 0.04,
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "1,258.2",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: resultClr,
-                      fontSize: size.height * 0.08,
-                    ),
+                child: TextFormField(
+                  controller: resulttxt,
+                  textAlign: TextAlign.right,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    border: InputBorder.none,
+                  ),
+                  style: TextStyle(
+                    color: resultClr,
+                    fontSize: size.height * 0.08,
                   ),
                 ),
               ),
@@ -144,7 +209,7 @@ class _CalcAppState extends State<CalcApp> {
                 shrinkWrap: true,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: size.height * 0.0016,
+                childAspectRatio: size.height * 0.0011,
                 crossAxisCount: 4,
                 primary: false,
                 children: [
@@ -179,7 +244,9 @@ class _CalcAppState extends State<CalcApp> {
 
   Widget button(Color bgclr, String text, Color numTxtClr) {
     return scaleWidget(
-      onTap: () {},
+      onTap: () {
+        status(text);
+      },
       scale: 0.7,
       child: Container(
         alignment: Alignment.center,
