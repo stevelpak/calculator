@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:calculator/widgets/scale.dart';
+import 'package:eval_ex/expression.dart';
 
 import '../utils/constants.dart';
 
@@ -27,11 +28,13 @@ class _CalcAppState extends State<CalcApp> {
   var lasttxt = TextEditingController();
   var resulttxt = TextEditingController();
 
-  double? firstNum, secondNum, result;
-  String? lastOperand;
+  String lTxt = "";
+  String rTxt = "";
 
   List nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
   List operands = ['÷', 'x', '-', '+'];
+  bool isPressed = false;
+  bool isEqualPressed = false;
 
   changeTheme() {
     setState(() {
@@ -57,54 +60,78 @@ class _CalcAppState extends State<CalcApp> {
     });
   }
 
-  status(String text) {
+  calculate(String text) {
+    rTxt = resulttxt.text;
+    lTxt = lasttxt.text;
+
     if (text == "C") {
-      resulttxt.text = "";
-      lasttxt.text = "";
+      rTxt = "";
+      lTxt = "";
+      isPressed = false;
     }
 
     if (text == "DEL") {
-      resulttxt.text = resulttxt.text.substring(0, resulttxt.text.length - 1);
+      rTxt = rTxt.substring(0, rTxt.length - 1);
+      isPressed = false;
     }
 
     if (text == "+/-") {
-      resulttxt.text = (double.parse(resulttxt.text) * (-1)).toString();
+      if (rTxt.contains(".")) {
+        rTxt = (double.parse(rTxt) * (-1)).toString();
+      } else {
+        rTxt = (double.parse(rTxt) * (-1)).toInt().toString();
+      }
+      isPressed = false;
     }
 
     if (text == "%") {
-      resulttxt.text = (double.parse(resulttxt.text) / (100)).toString();
+      rTxt = (double.parse(rTxt) / (100)).toString();
+      isPressed = false;
     }
 
-    if (text == ".") {
-      resulttxt.text += ".";
+    if (text == "." && !rTxt.contains(".")) {
+      rTxt += ".";
+      isPressed = false;
     }
 
     if (nums.contains(text)) {
-      resulttxt.text += text;
+      rTxt += text;
+      isPressed = false;
     }
 
     if (operands.contains(text)) {
-      lastOperand = text;
-      firstNum = double.parse(resulttxt.text);
-      lasttxt.text = resulttxt.text + text;
-      resulttxt.text = "";
-    }
-
-    if (text == "=") {
-      secondNum = double.parse(resulttxt.text);
-      lasttxt.text = lasttxt.text + resulttxt.text;
-
-      if (lastOperand == "+") {
-        resulttxt.text = (firstNum! + secondNum!).toString();
-      } else if (lastOperand == "-") {
-        resulttxt.text = (firstNum! - secondNum!).toString();
-      } else if (lastOperand == "x") {
-        resulttxt.text = (firstNum! * secondNum!).toString();
-      } else if (lastOperand == "÷") {
-        resulttxt.text = (firstNum! / secondNum!).toString();
+      if (!isPressed && !isEqualPressed) {
+        if (text == 'x') {
+          lTxt += "$rTxt*";
+        } else if (text == '÷') {
+          lTxt += "$rTxt/";
+        } else {
+          lTxt += rTxt + text;
+        }
+        rTxt = "";
+        isPressed = true;
+      } else if (!isPressed && isEqualPressed) {
+        if (text == 'x') {
+          lTxt = "$rTxt*";
+        } else if (text == '÷') {
+          lTxt = "$rTxt/";
+        } else {
+          lTxt = rTxt + text;
+        }
+        rTxt = "";
+        isPressed = true;
       }
     }
 
+    if (text == "=") {
+      lTxt = lTxt + rTxt;
+      rTxt = Expression(lTxt).eval().toString();
+      isPressed = false;
+      isEqualPressed = true;
+    }
+
+    resulttxt.text = rTxt;
+    lasttxt.text = lTxt;
     setState(() {});
   }
 
@@ -245,7 +272,7 @@ class _CalcAppState extends State<CalcApp> {
   Widget button(Color bgclr, String text, Color numTxtClr) {
     return scaleWidget(
       onTap: () {
-        status(text);
+        calculate(text);
       },
       scale: 0.7,
       child: Container(

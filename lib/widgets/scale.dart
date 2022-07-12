@@ -5,7 +5,7 @@ Widget scaleWidget(
     {required Widget child,
     required Function onTap,
     double scale = 0.9,
-    int time = 200,
+    int time = 50,
     bool isWait = false}) {
   bool pressed = false;
   return StatefulBuilder(
