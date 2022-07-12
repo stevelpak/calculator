@@ -120,6 +120,7 @@ class _CalcAppState extends State<CalcApp> {
         }
         rTxt = "";
         isPressed = true;
+        isEqualPressed = false;
       }
     }
 
@@ -127,7 +128,7 @@ class _CalcAppState extends State<CalcApp> {
       lTxt = lTxt + rTxt;
       rTxt = Expression(lTxt).eval().toString();
       isPressed = false;
-      isEqualPressed = true;
+      isEqualPressed = !isEqualPressed;
     }
 
     resulttxt.text = rTxt;
