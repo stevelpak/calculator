@@ -105,15 +105,14 @@ class _CalcAppState extends State<CalcApp> {
     if (nums.contains(text)) {
       if (rTxt.length < 18 && !isEqualPressed) {
         rTxt += text;
-        isPressed = false;
       } else {
         if (isContinue) {
           rTxt = "";
         }
         rTxt += text;
-        isPressed = false;
         isContinue = false;
       }
+      isPressed = false;
     }
 
     if (operands.contains(text)) {
@@ -154,18 +153,20 @@ class _CalcAppState extends State<CalcApp> {
     }
 
     if (text == "=") {
-      lTxt = lTxt + rTxt;
-      String natija = Expression(lTxt).eval().toString();
+      if (isEqualPressed == false) {
+        lTxt = lTxt + rTxt;
+        String natija = Expression(lTxt).eval().toString();
 
-      if (natija.contains('.')) {
-        rTxt = double.parse(natija).toStringAsFixed(3);
-      } else {
-        rTxt = natija;
+        if (natija.contains('.')) {
+          rTxt = double.parse(natija).toStringAsFixed(3);
+        } else {
+          rTxt = natija;
+        }
+
+        isPressed = false;
+        isEqualPressed = !isEqualPressed;
+        isContinue = !isContinue;
       }
-
-      isPressed = false;
-      isEqualPressed = !isEqualPressed;
-      isContinue = !isContinue;
     }
 
     resulttxt.text = rTxt;
