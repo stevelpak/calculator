@@ -31,10 +31,15 @@ class _CalcAppState extends State<CalcApp> {
   String lTxt = "";
   String rTxt = "";
 
+  double? lastSize, resultSize;
+
   List nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
   List operands = ['÷', 'x', '-', '+'];
+
   bool isPressed = false;
   bool isEqualPressed = false;
+
+  Brightness brightness = Brightness.light;
 
   changeTheme() {
     setState(() {
@@ -47,6 +52,7 @@ class _CalcAppState extends State<CalcApp> {
         actRowClr = actionsLightRowClr;
         switchClr = white;
         switchColor = actionsLightRowClr;
+        brightness = Brightness.dark;
       } else {
         switchAlign = dayAlign;
         bgClr = nightBgClr;
@@ -56,6 +62,7 @@ class _CalcAppState extends State<CalcApp> {
         actRowClr = nightactionsClmnClr;
         switchClr = switchBtnBgClr;
         switchColor = switchBtnClr;
+        brightness = Brightness.light;
       }
     });
   }
@@ -95,11 +102,25 @@ class _CalcAppState extends State<CalcApp> {
     }
 
     if (nums.contains(text)) {
-      rTxt += text;
-      isPressed = false;
+      if (rTxt.length < 18) {
+        rTxt += text;
+        isPressed = false;
+      }
     }
 
     if (operands.contains(text)) {
+      if (isPressed) {
+        if (text == 'x') {
+          lTxt = lTxt.replaceRange(lTxt.length - 1, null, '*');
+        } else if (text == '÷') {
+          lTxt = lTxt.replaceRange(lTxt.length - 1, null, '/');
+        } else {
+          lTxt = lTxt.replaceRange(lTxt.length - 1, null, text);
+        }
+        rTxt = "";
+        isPressed = true;
+      }
+
       if (!isPressed && !isEqualPressed) {
         if (text == 'x') {
           lTxt += "$rTxt*";
@@ -126,7 +147,14 @@ class _CalcAppState extends State<CalcApp> {
 
     if (text == "=") {
       lTxt = lTxt + rTxt;
-      rTxt = Expression(lTxt).eval().toString();
+      String natija = Expression(lTxt).eval().toString();
+
+      if (natija.contains('.')) {
+        rTxt = double.parse(natija).toStringAsFixed(3);
+      } else {
+        rTxt = natija;
+      }
+
       isPressed = false;
       isEqualPressed = !isEqualPressed;
     }
@@ -139,11 +167,20 @@ class _CalcAppState extends State<CalcApp> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    if (resulttxt.text.length > 9 || lasttxt.text.length > 16) {
+      lastSize = size.height * 0.02;
+      resultSize = size.height * 0.04;
+    } else {
+      lastSize = size.height * 0.04;
+      resultSize = size.height * 0.08;
+    }
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: bgClr,
-      statusBarBrightness:
-          switchAlign == dayAlign ? Brightness.dark : Brightness.light,
+      statusBarBrightness: brightness,
     ));
+
     return Scaffold(
       backgroundColor: bgClr,
       body: SafeArea(
@@ -181,7 +218,7 @@ class _CalcAppState extends State<CalcApp> {
                     ),
                     AnimatedContainer(
                       alignment: switchAlign,
-                      duration: const Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 300),
                       child: InkWell(
                         onTap: () {
                           changeTheme();
@@ -199,6 +236,7 @@ class _CalcAppState extends State<CalcApp> {
                   ],
                 ),
               ),
+              const Spacer(),
               Padding(
                 padding: EdgeInsets.only(top: size.height * 0.06),
                 child: TextFormField(
@@ -211,7 +249,7 @@ class _CalcAppState extends State<CalcApp> {
                   ),
                   style: TextStyle(
                     color: lastAction,
-                    fontSize: size.height * 0.04,
+                    fontSize: lastSize,
                   ),
                 ),
               ),
@@ -227,7 +265,7 @@ class _CalcAppState extends State<CalcApp> {
                   ),
                   style: TextStyle(
                     color: resultClr,
-                    fontSize: size.height * 0.08,
+                    fontSize: resultSize,
                   ),
                 ),
               ),
