@@ -38,6 +38,7 @@ class _CalcAppState extends State<CalcApp> {
 
   bool isPressed = false;
   bool isEqualPressed = false;
+  bool isContinue = false;
 
   Brightness brightness = Brightness.light;
 
@@ -102,9 +103,16 @@ class _CalcAppState extends State<CalcApp> {
     }
 
     if (nums.contains(text)) {
-      if (rTxt.length < 18) {
+      if (rTxt.length < 18 && !isEqualPressed) {
         rTxt += text;
         isPressed = false;
+      } else {
+        if (isContinue) {
+          rTxt = "";
+        }
+        rTxt += text;
+        isPressed = false;
+        isContinue = false;
       }
     }
 
@@ -157,6 +165,7 @@ class _CalcAppState extends State<CalcApp> {
 
       isPressed = false;
       isEqualPressed = !isEqualPressed;
+      isContinue = !isContinue;
     }
 
     resulttxt.text = rTxt;
